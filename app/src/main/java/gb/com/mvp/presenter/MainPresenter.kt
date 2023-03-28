@@ -6,7 +6,7 @@ import gb.com.navigation.Screens
 import moxy.MvpPresenter
 
 class MainPresenter(
-    val router: Router
+    private val router: Router
 ): MvpPresenter<MainView>() {
 
     override fun onFirstViewAttach() {
@@ -18,5 +18,4 @@ class MainPresenter(
     fun backClicked() {
         router.exit()
     }
-
 }

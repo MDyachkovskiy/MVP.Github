@@ -8,8 +8,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.App
 import gb.com.R
 import gb.com.mvp.model.entity.GithubUsersRepo
-import gb.com.mvp.presenter.UsersPresenter
-import gb.com.mvp.view.UsersView
+import gb.com.mvp.presenter.list.UsersPresenter
+import gb.com.mvp.view.list.UsersView
 import gb.com.ui.BackButtonListener
 import gb.com.ui.adapters.UsersRVAdapter
 import kotlinx.android.synthetic.main.fragment_users.*

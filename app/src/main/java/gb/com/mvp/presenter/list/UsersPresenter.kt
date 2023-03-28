@@ -1,16 +1,16 @@
-package gb.com.mvp.presenter
+package gb.com.mvp.presenter.list
 
 import com.github.terrakok.cicerone.Router
 import gb.com.mvp.model.entity.GithubUser
 import gb.com.mvp.model.entity.GithubUsersRepo
-import gb.com.mvp.presenter.list.IUserListPresenter
-import gb.com.mvp.view.UsersView
+import gb.com.mvp.view.list.UsersView
 import gb.com.mvp.view.list.IUserItemView
+import gb.com.navigation.Screens
 import moxy.MvpPresenter
 
 class UsersPresenter(
-    val usersRepo: GithubUsersRepo,
-    val router: Router
+    private val usersRepo: GithubUsersRepo,
+    private val router: Router
 ): MvpPresenter<UsersView>() {
 
     class UserListPresenter: IUserListPresenter {
@@ -34,6 +34,12 @@ class UsersPresenter(
 
         viewState.init()
         loadData()
+
+        usersListPresenter.itemClickListener = {itemView ->
+            val position = itemView.pos
+            val login = usersListPresenter.users[position].login
+            router.navigateTo(Screens.UserScreen(login))
+        }
     }
 
     private fun loadData(){
@@ -46,5 +52,4 @@ class UsersPresenter(
         router.exit()
         return true
     }
-
 }

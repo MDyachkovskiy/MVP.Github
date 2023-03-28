@@ -1,4 +1,4 @@
-package gb.com.mvp.view
+package gb.com.mvp.view.list
 
 import moxy.MvpView
 import moxy.viewstate.strategy.AddToEndSingleStrategy
