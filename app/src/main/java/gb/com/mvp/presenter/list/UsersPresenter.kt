@@ -7,8 +7,10 @@ import gb.com.mvp.model.entity.GithubUsersRepo
 import gb.com.mvp.view.list.UsersView
 import gb.com.mvp.view.list.IUserItemView
 import gb.com.navigation.IScreens
-import io.reactivex.rxjava3.core.Observer
+import gb.com.utility.TAG
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 
 class UsersPresenter(
@@ -32,6 +34,8 @@ class UsersPresenter(
 
     val usersListPresenter = UserListPresenter()
 
+    var disposable: Disposable? = null
+
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
 
@@ -42,39 +46,24 @@ class UsersPresenter(
             val position = itemView.pos
             val login = usersListPresenter.users[position].login
             router.navigateTo(screens.userScreen(login))
+            disposable?.dispose()
         }
     }
 
     private fun loadData(){
-        usersRepo.getUsers()
-            .subscribe(UserObserver())
-        viewState.updateList()
-    }
-
-    inner class UserObserver: Observer<GithubUser> {
-
-        private var disposable: Disposable? = null
-
-        override fun onNext(user: GithubUser) {
-            user.let { usersListPresenter.users.add(user) }
-        }
-
-        override fun onError(e: Throwable) {
-            Log.d("@@@", "UsersPresenter error $e")
-        }
-
-        override fun onComplete() {
-            Log.d("@@@", "UsersPresenter complete")
-        }
-
-        override fun onSubscribe(d: Disposable) {
-            disposable = d
-            Log.d("@@@", "UsersPresenter subscribe")
-        }
+        disposable = usersRepo.getUsers()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                { user -> usersListPresenter.users.add(user)},
+                {error -> Log.d(TAG, "Error loading users $error")},
+                {Log.d(TAG, "UsersPresenter Successfully Completed")
+        viewState.updateList()})
     }
 
     fun backPressed(): Boolean {
         router.exit()
+        disposable?.dispose()
         return true
     }
 
