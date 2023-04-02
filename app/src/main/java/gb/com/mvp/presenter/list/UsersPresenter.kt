@@ -6,13 +6,14 @@ import gb.com.mvp.model.entity.GithubUser
 import gb.com.mvp.model.entity.GithubUsersRepo
 import gb.com.mvp.view.list.UsersView
 import gb.com.mvp.view.list.IUserItemView
-import gb.com.navigation.Screens
+import gb.com.navigation.IScreens
 import io.reactivex.rxjava3.core.Observer
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
 
 class UsersPresenter(
     private val usersRepo: GithubUsersRepo,
+    private val screens: IScreens,
     private val router: Router
 ): MvpPresenter<UsersView>() {
 
@@ -40,7 +41,7 @@ class UsersPresenter(
         usersListPresenter.itemClickListener = {itemView ->
             val position = itemView.pos
             val login = usersListPresenter.users[position].login
-            router.navigateTo(Screens.UserScreen(login))
+            router.navigateTo(screens.userScreen(login))
         }
     }
 
@@ -52,7 +53,7 @@ class UsersPresenter(
 
     inner class UserObserver: Observer<GithubUser> {
 
-        var disposable: Disposable? = null
+        private var disposable: Disposable? = null
 
         override fun onNext(user: GithubUser) {
             user.let { usersListPresenter.users.add(user) }
@@ -75,5 +76,10 @@ class UsersPresenter(
     fun backPressed(): Boolean {
         router.exit()
         return true
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewState.release()
     }
 }

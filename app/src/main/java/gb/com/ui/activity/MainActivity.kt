@@ -1,4 +1,4 @@
-package gb.com.ui
+package gb.com.ui.activity
 
 import android.os.Bundle
 import gb.com.App
@@ -8,19 +8,24 @@ import gb.com.mvp.view.MainView
 import moxy.MvpAppCompatActivity
 import moxy.ktx.moxyPresenter
 import com.github.terrakok.cicerone.androidx.AppNavigator
+import gb.com.databinding.ActivityMainBinding
+import gb.com.navigation.Screens
 
 class MainActivity : MvpAppCompatActivity(), MainView {
 
-    val navigatorHolder = App.instance.navigatorHolder
-    val navigator = AppNavigator(this, R.id.container)
+    private val navigatorHolder = App.instance.navigatorHolder
+    private val navigator = AppNavigator(this, R.id.container)
+
+    private lateinit var binding: ActivityMainBinding
 
     private val presenter by moxyPresenter {
-        MainPresenter(App.instance.router)
+        MainPresenter(App.instance.router, Screens())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
     }
 
     override fun onResumeFragments() {
