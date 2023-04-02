@@ -9,6 +9,7 @@ import gb.com.mvp.view.list.IUserItemView
 import gb.com.navigation.IScreens
 import gb.com.utility.TAG
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
@@ -34,7 +35,7 @@ class UsersPresenter(
 
     val usersListPresenter = UserListPresenter()
 
-    var disposable: Disposable? = null
+    private var disposable: Disposable? = null
 
     override fun onFirstViewAttach() {
         super.onFirstViewAttach()
@@ -43,10 +44,15 @@ class UsersPresenter(
         loadData()
 
         usersListPresenter.itemClickListener = {itemView ->
-            val position = itemView.pos
-            val login = usersListPresenter.users[position].login
-            router.navigateTo(screens.userScreen(login))
-            disposable?.dispose()
+            val loginDisposable = Observable.just(usersListPresenter.users)
+                .map{ it[itemView.pos] }
+                .map{ it.login }
+                .subscribe(
+                    {router.navigateTo(screens.userScreen(it))},
+                    {error -> Log.d(TAG, "Error loading users $error")},
+                    {Log.d(TAG, "UsersPresenter Successfully Completed")}
+                )
+            loginDisposable.dispose()
         }
     }
 
