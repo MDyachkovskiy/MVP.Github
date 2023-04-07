@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MVP.Github</string>
+    <string name="user_login">user_login</string>
 </resources>

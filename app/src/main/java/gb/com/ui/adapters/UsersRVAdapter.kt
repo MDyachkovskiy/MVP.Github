@@ -2,21 +2,28 @@ package gb.com.ui.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import gb.com.databinding.ItemUserBinding
+import gb.com.mvp.model.repository.IImageLoader
 import gb.com.mvp.presenter.list.IUserListPresenter
 import gb.com.mvp.view.list.IUserItemView
 
 class UsersRVAdapter(
-    val presenter: IUserListPresenter
+    val presenter: IUserListPresenter,
+    val imageLoader: IImageLoader<ImageView>
 ): RecyclerView.Adapter<UsersRVAdapter.ViewHolder>() {
 
     inner class ViewHolder(
-        private val vb: ItemUserBinding
+        private val vb: ItemUserBinding,
         ): RecyclerView.ViewHolder(vb.root), IUserItemView{
 
         override fun setLogin(text: String) = with(vb) {
            tvLogin.text = text
+        }
+
+        override fun loadAvatar(url: String) {
+            imageLoader.loadInto(url, vb.ivAvatar)
         }
 
         override var pos = -1

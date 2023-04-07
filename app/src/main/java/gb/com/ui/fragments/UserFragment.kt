@@ -5,40 +5,23 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import gb.com.App
 import gb.com.databinding.FragmentUserBinding
+import gb.com.mvp.model.entity.GithubUser
 import gb.com.mvp.presenter.user.UserPresenter
 import gb.com.mvp.view.user.IUserView
 import gb.com.navigation.Screens
 import gb.com.ui.activity.BackButtonListener
-import gb.com.utility.ARG_LOGIN
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
 
-class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
+class UserFragment(
+    private val user: GithubUser
+): MvpAppCompatFragment(), IUserView, BackButtonListener {
 
     private var _binding: FragmentUserBinding?= null
     private val binding get() = _binding!!
 
-    companion object{
-
-        fun newInstance(login: String)
-        = UserFragment().apply {
-            arguments = Bundle().apply{
-                putString(ARG_LOGIN, login)
-            }
-        }
-    }
-
-    private var login: String? = null
-
     val presenter: UserPresenter by moxyPresenter {
-        UserPresenter(App.instance.router, Screens())
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            login = it.getString(ARG_LOGIN)
-        }
+        UserPresenter(App.instance.router, user, Screens())
     }
 
     override fun onCreateView(
@@ -59,8 +42,8 @@ class UserFragment: MvpAppCompatFragment(), IUserView, BackButtonListener {
         return true
     }
 
-    override fun init() {
-        login?.let {
-            binding.userLogin.text = it}?: let { binding.userLogin.text = "not found login" }
+    override fun init(login: String) {
+        user.login.let {
+            binding.userLogin.text = it}
         }
 }
