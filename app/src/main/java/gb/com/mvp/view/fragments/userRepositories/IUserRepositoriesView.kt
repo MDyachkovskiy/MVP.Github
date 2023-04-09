@@ -8,4 +8,5 @@ import moxy.viewstate.strategy.StateStrategyType
 interface IUserRepositoriesView: MvpView {
     fun init()
     fun updateList()
+    fun hideProgressBar()
 }

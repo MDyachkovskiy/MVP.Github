@@ -68,6 +68,7 @@ class UserRepositoryListPresenter(
                     userRepositoryListPresenter.repositories.clear()
                     userRepositoryListPresenter.repositories.addAll(it)
                     viewState.updateList()
+                    viewState.hideProgressBar()
                            }, {
                     Log.d(TAG, "Error in LoadRepositories function $it")}
                 )

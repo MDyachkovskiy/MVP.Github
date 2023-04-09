@@ -2,6 +2,7 @@ package gb.com.mvp.view.fragments.userRepositories
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.App
@@ -63,5 +64,9 @@ class UserRepositoriesFragment(
 
     override fun updateList() {
         adapter?.notifyDataSetChanged()
+    }
+
+    override fun hideProgressBar(){
+        binding.progressBar.visibility = View.INVISIBLE
     }
 }
