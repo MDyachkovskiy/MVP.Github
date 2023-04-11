@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.App
 import gb.com.databinding.FragmentUsersListBinding
 import gb.com.mvp.model.api.ApiHolder
+import gb.com.mvp.model.entity.room.cache.RoomGithubUsersCache
 import gb.com.mvp.model.network.AndroidNetworkStatus
 import gb.com.mvp.model.repository.imageLoader.GlideImageLoader
 import gb.com.mvp.model.repository.users.RetrofitGithubUsersRepo
@@ -30,7 +31,7 @@ class IUsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonList
         UsersListPresenter(
             AndroidSchedulers.mainThread(),
             RetrofitGithubUsersRepo(ApiHolder.api, AndroidNetworkStatus(App.instance),
-            Database.getInstance()),
+            Database.getInstance(), RoomGithubUsersCache()),
             Screens(),  App.instance.router)
     }
 

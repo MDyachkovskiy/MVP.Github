@@ -9,6 +9,7 @@ import gb.com.App
 import gb.com.databinding.FragmentUserRepositoriesBinding
 import gb.com.mvp.model.api.ApiHolder
 import gb.com.mvp.model.entity.GithubUser
+import gb.com.mvp.model.entity.room.cache.RoomGithubRepositoriesCache
 import gb.com.mvp.model.network.AndroidNetworkStatus
 import gb.com.mvp.model.repository.userRepository.RetrofitGithubUserRepository
 import gb.com.mvp.model.room.Database
@@ -33,7 +34,7 @@ class UserRepositoriesFragment(
         UserRepositoryListPresenter(
             AndroidSchedulers.mainThread(),
             RetrofitGithubUserRepository(ApiHolder.api, AndroidNetworkStatus(App.instance),
-                Database.getInstance()),
+                Database.getInstance(), RoomGithubRepositoriesCache()),
             App.instance.router, user, Screens())
     }
 
