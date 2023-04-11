@@ -7,8 +7,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.App
 import gb.com.databinding.FragmentUsersListBinding
 import gb.com.mvp.model.api.ApiHolder
+import gb.com.mvp.model.network.AndroidNetworkStatus
 import gb.com.mvp.model.repository.imageLoader.GlideImageLoader
 import gb.com.mvp.model.repository.users.RetrofitGithubUsersRepo
+import gb.com.mvp.model.room.Database
 import gb.com.mvp.presenter.users.UsersListPresenter
 import gb.com.navigation.Screens
 import gb.com.mvp.view.main.BackButtonListener
@@ -27,7 +29,8 @@ class IUsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonList
     private val presenter: UsersListPresenter by moxyPresenter {
         UsersListPresenter(
             AndroidSchedulers.mainThread(),
-            RetrofitGithubUsersRepo(ApiHolder.api),
+            RetrofitGithubUsersRepo(ApiHolder.api, AndroidNetworkStatus(App.instance),
+            Database.getInstance()),
             Screens(),  App.instance.router)
     }
 
