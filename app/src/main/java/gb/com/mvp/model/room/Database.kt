@@ -5,13 +5,15 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import gb.com.mvp.model.entity.room.RoomGithubUser
 import gb.com.mvp.model.entity.room.RoomGithubUserRepository
+import gb.com.mvp.model.entity.room.RoomImageCache
 
 @androidx.room.Database(entities = [RoomGithubUser::class,
-RoomGithubUserRepository::class], version = 1)
+RoomGithubUserRepository::class, RoomImageCache::class], version = 1)
 abstract class Database: RoomDatabase() {
 
     abstract val userDao: UserDao
     abstract val repositoryDao: RepositoryDao
+    abstract val imageCacheDao: ImageCacheDao
 
     companion object {
         private const val DB_NAME = "database.db"

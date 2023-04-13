@@ -27,15 +27,16 @@ class RetrofitGithubUserRepository (
                } ?: Single.error<List<GithubUserRepository>>(RuntimeException
                    ("User has no repositories url"))
                     .subscribeOn(Schedulers.io())
-
             } else {
                 Single.fromCallable {
                     val roomUser = user.login?.let{
                         db.userDao.findByLogin(it)} ?: throw RuntimeException("No such user in cache")
-                        db.repositoryDao.findForUserRepositories(roomUser.id)
+
+                    val list = db.repositoryDao.findForUserRepositories(roomUser.id)
                             .map{
                                 GithubUserRepository(it.id, it.name, it.forksCount)
                             }
+                    return@fromCallable list
                     }
                 }.subscribeOn(Schedulers.io())
             }
