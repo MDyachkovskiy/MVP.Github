@@ -6,39 +6,39 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.App
 import gb.com.databinding.FragmentUsersListBinding
-import gb.com.mvp.model.api.ApiHolder
 import gb.com.mvp.model.entity.room.cache.RoomGithubAvatarCache
-import gb.com.mvp.model.entity.room.cache.RoomGithubUsersCache
 import gb.com.mvp.model.network.AndroidNetworkStatus
 import gb.com.mvp.model.repository.avatar.AvatarFile
 import gb.com.mvp.model.repository.imageLoader.GlideImageLoader
-import gb.com.mvp.model.repository.users.RetrofitGithubUsersRepo
 import gb.com.mvp.model.room.Database
 import gb.com.mvp.presenter.users.UsersListPresenter
-import gb.com.navigation.Screens
-import gb.com.mvp.view.main.BackButtonListener
 import gb.com.mvp.view.adapters.users.UsersRVAdapter
+import gb.com.mvp.view.main.BackButtonListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
-class IUsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonListener {
+class UsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonListener {
 
     private var _binding: FragmentUsersListBinding?= null
     private val binding get() = _binding!!
 
     private var adapter: UsersRVAdapter? = null
 
+    @Inject
+    lateinit var database: Database
+
     private val presenter: UsersListPresenter by moxyPresenter {
-        UsersListPresenter(
-            AndroidSchedulers.mainThread(),
-            RetrofitGithubUsersRepo(ApiHolder.api, AndroidNetworkStatus(App.instance),
-            Database.getInstance(), RoomGithubUsersCache()),
-            Screens(),  App.instance.router)
+        UsersListPresenter(AndroidSchedulers.mainThread()).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     companion object{
-        fun newInstance() = IUsersListFragment()
+        fun newInstance() = UsersListFragment().apply{
+            App.instance.appComponent.inject(this)
+        }
     }
 
     override fun onCreateView(
@@ -57,7 +57,7 @@ class IUsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonList
     override fun init() {
         binding.rvUsers.layoutManager = LinearLayoutManager(context)
         adapter = UsersRVAdapter(presenter.usersListPresenter,
-            GlideImageLoader(Database.getInstance(),
+            GlideImageLoader(database,
                 RoomGithubAvatarCache(AvatarFile()),
                 AndroidNetworkStatus(App.instance),
                 AndroidSchedulers.mainThread())

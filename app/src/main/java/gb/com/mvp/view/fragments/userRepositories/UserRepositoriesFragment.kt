@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.github.terrakok.cicerone.Router
 import gb.com.App
 import gb.com.databinding.FragmentUserRepositoriesBinding
 import gb.com.mvp.model.api.ApiHolder
@@ -20,10 +21,14 @@ import gb.com.mvp.view.main.BackButtonListener
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class UserRepositoriesFragment(
     private val user: GithubUser
 ): MvpAppCompatFragment(), IUserRepositoriesView, BackButtonListener {
+
+    @Inject lateinit var database: Database
+    @Inject lateinit var router: Router
 
     private var _binding: FragmentUserRepositoriesBinding?= null
     private val binding get() = _binding!!
@@ -34,8 +39,8 @@ class UserRepositoriesFragment(
         UserRepositoryListPresenter(
             AndroidSchedulers.mainThread(),
             RetrofitGithubUserRepository(ApiHolder.api, AndroidNetworkStatus(App.instance),
-                Database.getInstance(), RoomGithubRepositoriesCache()),
-            App.instance.router, user, Screens())
+                database, RoomGithubRepositoriesCache()),
+            router, user, Screens())
     }
 
     override fun onCreateView(

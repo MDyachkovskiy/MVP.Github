@@ -3,6 +3,7 @@ package gb.com.mvp.view.fragments.repositoryDetails
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.github.terrakok.cicerone.Router
 import gb.com.App
 import gb.com.databinding.FragmentRepositoryDetailsBinding
 import gb.com.mvp.model.entity.GithubUser
@@ -13,14 +14,17 @@ import gb.com.utility.ARG_USER
 import gb.com.utility.ARG_USER_REPO
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
+import javax.inject.Inject
 
 class RepositoryDetailsFragment: MvpAppCompatFragment(), IRepositoryDetailsView, BackButtonListener{
 
     private var _binding : FragmentRepositoryDetailsBinding? = null
     private val binding get() = _binding!!
 
+    @Inject lateinit var router: Router
+
     val presenter: RepositoryDetailsPresenter by moxyPresenter {
-        RepositoryDetailsPresenter(App.instance.router)
+        RepositoryDetailsPresenter(router)
     }
 
     companion object {
@@ -31,6 +35,7 @@ class RepositoryDetailsFragment: MvpAppCompatFragment(), IRepositoryDetailsView,
                 putParcelable(ARG_USER_REPO, userRepo)
                 putParcelable(ARG_USER, user)
             }
+            App.instance.appComponent.inject(this)
         }
     }
 
