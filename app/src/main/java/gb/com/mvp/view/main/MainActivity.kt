@@ -15,6 +15,7 @@ class MainActivity : MvpAppCompatActivity(), MainView {
 
     @Inject
     lateinit var navigatorHolder: NavigatorHolder
+
     private val navigator = AppNavigator(this, R.id.container)
 
     private lateinit var binding: ActivityMainBinding

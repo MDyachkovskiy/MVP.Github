@@ -6,18 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.App
 import gb.com.databinding.FragmentUsersListBinding
-import gb.com.mvp.model.entity.room.cache.RoomGithubAvatarCache
-import gb.com.mvp.model.network.AndroidNetworkStatus
-import gb.com.mvp.model.repository.avatar.AvatarFile
 import gb.com.mvp.model.repository.imageLoader.GlideImageLoader
-import gb.com.mvp.model.room.Database
 import gb.com.mvp.presenter.users.UsersListPresenter
 import gb.com.mvp.view.adapters.users.UsersRVAdapter
 import gb.com.mvp.view.main.BackButtonListener
-import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import moxy.MvpAppCompatFragment
 import moxy.ktx.moxyPresenter
-import javax.inject.Inject
 
 class UsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonListener {
 
@@ -26,19 +20,14 @@ class UsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonListe
 
     private var adapter: UsersRVAdapter? = null
 
-    @Inject
-    lateinit var database: Database
-
     private val presenter: UsersListPresenter by moxyPresenter {
-        UsersListPresenter(AndroidSchedulers.mainThread()).apply {
+        UsersListPresenter().apply {
             App.instance.appComponent.inject(this)
         }
     }
 
     companion object{
-        fun newInstance() = UsersListFragment().apply{
-            App.instance.appComponent.inject(this)
-        }
+        fun newInstance() = UsersListFragment()
     }
 
     override fun onCreateView(
@@ -57,11 +46,9 @@ class UsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonListe
     override fun init() {
         binding.rvUsers.layoutManager = LinearLayoutManager(context)
         adapter = UsersRVAdapter(presenter.usersListPresenter,
-            GlideImageLoader(database,
-                RoomGithubAvatarCache(AvatarFile()),
-                AndroidNetworkStatus(App.instance),
-                AndroidSchedulers.mainThread())
-        )
+            GlideImageLoader().apply{
+                App.instance.appComponent.inject(this)
+            })
         binding.rvUsers.adapter = adapter
     }
 

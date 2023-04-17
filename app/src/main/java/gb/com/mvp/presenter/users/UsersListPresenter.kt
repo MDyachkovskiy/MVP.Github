@@ -15,15 +15,15 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 import moxy.MvpPresenter
 import javax.inject.Inject
 
-class UsersListPresenter(
-    private val uiScheduler: Scheduler
-): MvpPresenter<IUsersListView>() {
+class UsersListPresenter: MvpPresenter<IUsersListView>() {
 
     @Inject lateinit var usersRepo: IGithubUsersRepo
 
     @Inject lateinit var router: Router
 
     @Inject lateinit var screens: IScreens
+
+    @Inject lateinit var uiScheduler: Scheduler
 
     class UsersListPresenter: IUsersListPresenter {
         val users = mutableListOf<GithubUser>()

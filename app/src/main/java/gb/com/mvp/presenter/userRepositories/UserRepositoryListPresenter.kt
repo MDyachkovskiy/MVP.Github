@@ -13,14 +13,16 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.disposables.Disposable
 import moxy.MvpPresenter
+import javax.inject.Inject
 
 class UserRepositoryListPresenter(
-    private val uiScheduler: Scheduler,
-    private val usersRepo: IGithubUserRepositories,
-    private val router: Router,
-    private val user: GithubUser,
-    private val screens: IScreens
+    private val user: GithubUser
 ) : MvpPresenter<IUserRepositoriesView>(){
+
+    @Inject lateinit var uiScheduler: Scheduler
+    @Inject lateinit var usersRepo: IGithubUserRepositories
+    @Inject lateinit var router: Router
+    @Inject lateinit var screens: IScreens
 
     class UserRepositoriesListPresenter: IUserRepositoryListPresenter{
 

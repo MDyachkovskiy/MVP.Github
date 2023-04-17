@@ -14,13 +14,21 @@ import gb.com.mvp.model.room.Database
 import gb.com.utility.TAG
 import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.Schedulers
+import javax.inject.Inject
 
-class GlideImageLoader(
-    private val db: Database,
-    private val avatarCache: IRoomGithubAvatarCache,
-    private val networkStatus: INetworkStatus,
-    private val uiScheduler: Scheduler
-): IImageLoader<ImageView> {
+class GlideImageLoader: IImageLoader<ImageView> {
+
+    @Inject
+    lateinit var db: Database
+
+    @Inject
+    lateinit var avatarCache: IRoomGithubAvatarCache
+
+    @Inject
+    lateinit var networkStatus: INetworkStatus
+
+    @Inject
+    lateinit var uiScheduler: Scheduler
 
     override fun loadInto(url: String, container: ImageView) {
 
