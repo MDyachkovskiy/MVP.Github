@@ -2,6 +2,7 @@ package gb.com.mvp.presenter.users
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
+import gb.com.di.user.IUserScopeContainer
 import gb.com.mvp.model.entity.GithubUser
 import gb.com.mvp.model.repository.users.IGithubUsersRepo
 import gb.com.mvp.view.adapters.users.IUserItemView
@@ -24,6 +25,8 @@ class UsersListPresenter: MvpPresenter<IUsersListView>() {
     @Inject lateinit var screens: IScreens
 
     @Inject lateinit var uiScheduler: Scheduler
+
+    @Inject lateinit var userScopeContainer: IUserScopeContainer
 
     class UsersListPresenter: IUsersListPresenter {
         val users = mutableListOf<GithubUser>()
@@ -77,5 +80,10 @@ class UsersListPresenter: MvpPresenter<IUsersListView>() {
         router.exit()
         disposable?.dispose()
         return true
+    }
+
+    override fun onDestroy() {
+        userScopeContainer.releaseUserScope()
+        super.onDestroy()
     }
 }

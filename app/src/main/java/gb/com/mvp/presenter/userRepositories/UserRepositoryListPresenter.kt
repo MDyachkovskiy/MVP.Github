@@ -2,6 +2,7 @@ package gb.com.mvp.presenter.userRepositories
 
 import android.util.Log
 import com.github.terrakok.cicerone.Router
+import gb.com.di.repository.IRepositoryScopeContainer
 import gb.com.mvp.model.entity.GithubUser
 import gb.com.mvp.model.entity.GithubUserRepository
 import gb.com.mvp.model.repository.userRepository.IGithubUserRepositories
@@ -23,6 +24,7 @@ class UserRepositoryListPresenter(
     @Inject lateinit var usersRepo: IGithubUserRepositories
     @Inject lateinit var router: Router
     @Inject lateinit var screens: IScreens
+    @Inject lateinit var repositoryScopeContainer: IRepositoryScopeContainer
 
     class UserRepositoriesListPresenter: IUserRepositoryListPresenter{
 
@@ -82,5 +84,10 @@ class UserRepositoryListPresenter(
         router.backTo(screens.usersScreen())
         disposable?.dispose()
         return true
+    }
+
+    override fun onDestroy() {
+        repositoryScopeContainer.releaseRepositoryScope()
+        super.onDestroy()
     }
 }
