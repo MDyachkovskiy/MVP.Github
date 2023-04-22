@@ -22,4 +22,12 @@ class MainPresenter: MvpPresenter<MainView>() {
     fun backClicked() {
         router.exit()
     }
+
+    fun openListFragment() {
+        router.navigateTo(screens.usersScreen())
+    }
+
+    fun openSearchFragment() {
+        router.navigateTo(screens.searchScreen())
+    }
 }
