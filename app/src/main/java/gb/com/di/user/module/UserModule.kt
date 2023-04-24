@@ -23,7 +23,7 @@ class UserModule {
 
     @UserScope
     @Provides
-    open fun usersRepo(
+    fun usersRepo(
         api: IDataSource,
         networkStatus: INetworkStatus,
         roomCache: IRoomGithubUsersCache
@@ -33,5 +33,5 @@ class UserModule {
 
     @UserScope
     @Provides
-    open fun scopeContainer(app: App): IUserScopeContainer = app
+    fun scopeContainer(app: App): IUserScopeContainer = app
 }

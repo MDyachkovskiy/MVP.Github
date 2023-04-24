@@ -25,7 +25,7 @@ class RoomGithubUsersCache(
             RoomGithubUser(
             id = user.id ?: "",
             login = user.login ?: "",
-            avatarUrl = user.avatarUrl ?: "",
+            avatarUrl = user.avatar_url ?: "",
             reposUrl = user.repos_url ?:  ""
             )
         }

@@ -2,6 +2,7 @@ package gb.com.di.search
 
 import dagger.Subcomponent
 import gb.com.di.search.module.SearchModule
+import gb.com.mvp.model.repository.imageLoader.GlideImageLoader
 import gb.com.mvp.presenter.search.SearchPresenter
 
 @SearchScope
@@ -13,5 +14,6 @@ import gb.com.mvp.presenter.search.SearchPresenter
 interface SearchSubcomponent {
 
     fun inject (searchPresenter: SearchPresenter)
+    fun inject (glideImageLoader: GlideImageLoader)
 
 }

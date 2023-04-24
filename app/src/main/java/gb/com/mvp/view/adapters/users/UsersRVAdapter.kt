@@ -31,7 +31,8 @@ class UsersRVAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         ViewHolder(ItemUserBinding.inflate(LayoutInflater.from(parent.context),
         parent, false)).apply {
-            itemView.setOnClickListener { presenter.itemClickListener?.invoke(this) }
+            itemView.setOnClickListener {
+                presenter.itemClickListener?.invoke(this) }
         }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
