@@ -20,7 +20,10 @@ class RepositoryDetailsFragment: MvpAppCompatFragment(), IRepositoryDetailsView,
     private val binding get() = _binding!!
 
     val presenter: RepositoryDetailsPresenter by moxyPresenter {
-        RepositoryDetailsPresenter(App.instance.router)
+        val user = arguments?.getParcelable<GithubUser>(ARG_USER) as GithubUser
+        RepositoryDetailsPresenter(user).apply {
+            App.instance.appComponent.inject(this)
+        }
     }
 
     companion object {
@@ -35,13 +38,12 @@ class RepositoryDetailsFragment: MvpAppCompatFragment(), IRepositoryDetailsView,
     }
 
     private var userRepo: GithubUserRepository? = null
-    private var user: GithubUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             userRepo = it.getParcelable(ARG_USER_REPO)
-            user = it.getParcelable(ARG_USER)
+
         }
     }
 

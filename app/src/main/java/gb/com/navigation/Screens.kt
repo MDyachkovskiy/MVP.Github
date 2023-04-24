@@ -5,15 +5,15 @@ import gb.com.mvp.model.entity.GithubUser
 import gb.com.mvp.model.entity.GithubUserRepository
 import gb.com.mvp.view.fragments.repositoryDetails.RepositoryDetailsFragment
 import gb.com.mvp.view.fragments.userRepositories.UserRepositoriesFragment
-import gb.com.mvp.view.fragments.users.IUsersListFragment
+import gb.com.mvp.view.fragments.users.UsersListFragment
 
 class Screens : IScreens {
 
     override fun usersScreen() = FragmentScreen {
-        IUsersListFragment.newInstance() }
+        UsersListFragment.newInstance() }
 
     override fun userScreen(user: GithubUser) = FragmentScreen {
-        UserRepositoriesFragment(user)
+        UserRepositoriesFragment.newInstance(user)
     }
 
     override fun repositoryDetailsScreen(user: GithubUser, userRepo: GithubUserRepository) =
