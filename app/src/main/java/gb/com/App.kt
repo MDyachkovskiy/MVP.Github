@@ -3,6 +3,7 @@ package gb.com
 import android.app.Application
 import com.github.terrakok.cicerone.Cicerone
 import com.github.terrakok.cicerone.Router
+import gb.com.mvp.model.room.Database
 
 class App: Application() {
 
@@ -17,6 +18,7 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
         instance = this
+        Database.create(this)
     }
 
     val navigatorHolder get() = cicerone.getNavigatorHolder()

@@ -9,7 +9,10 @@ import gb.com.App
 import gb.com.databinding.FragmentUserRepositoriesBinding
 import gb.com.mvp.model.api.ApiHolder
 import gb.com.mvp.model.entity.GithubUser
+import gb.com.mvp.model.entity.room.cache.RoomGithubRepositoriesCache
+import gb.com.mvp.model.network.AndroidNetworkStatus
 import gb.com.mvp.model.repository.userRepository.RetrofitGithubUserRepository
+import gb.com.mvp.model.room.Database
 import gb.com.mvp.presenter.userRepositories.UserRepositoryListPresenter
 import gb.com.mvp.view.adapters.userRepositories.UserRepositoriesRVAdapter
 import gb.com.navigation.Screens
@@ -30,7 +33,8 @@ class UserRepositoriesFragment(
     val presenter: UserRepositoryListPresenter by moxyPresenter {
         UserRepositoryListPresenter(
             AndroidSchedulers.mainThread(),
-            RetrofitGithubUserRepository(ApiHolder.api),
+            RetrofitGithubUserRepository(ApiHolder.api, AndroidNetworkStatus(App.instance),
+                Database.getInstance(), RoomGithubRepositoriesCache()),
             App.instance.router, user, Screens())
     }
 

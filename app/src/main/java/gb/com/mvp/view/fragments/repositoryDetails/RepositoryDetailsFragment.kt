@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import gb.com.App
 import gb.com.databinding.FragmentRepositoryDetailsBinding
 import gb.com.mvp.model.entity.GithubUser
-import gb.com.mvp.model.entity.GithubUserRepositories
+import gb.com.mvp.model.entity.GithubUserRepository
 import gb.com.mvp.presenter.repositoryDetails.RepositoryDetailsPresenter
 import gb.com.mvp.view.main.BackButtonListener
 import gb.com.utility.ARG_USER
@@ -26,7 +26,7 @@ class RepositoryDetailsFragment: MvpAppCompatFragment(), IRepositoryDetailsView,
     companion object {
         fun newInstance(
             user: GithubUser,
-            userRepo: GithubUserRepositories) = RepositoryDetailsFragment().apply{
+            userRepo: GithubUserRepository) = RepositoryDetailsFragment().apply{
             arguments = Bundle().apply {
                 putParcelable(ARG_USER_REPO, userRepo)
                 putParcelable(ARG_USER, user)
@@ -34,7 +34,7 @@ class RepositoryDetailsFragment: MvpAppCompatFragment(), IRepositoryDetailsView,
         }
     }
 
-    private var userRepo: GithubUserRepositories? = null
+    private var userRepo: GithubUserRepository? = null
     private var user: GithubUser? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

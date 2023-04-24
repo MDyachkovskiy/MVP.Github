@@ -3,7 +3,7 @@ package gb.com.mvp.presenter.userRepositories
 import android.util.Log
 import com.github.terrakok.cicerone.Router
 import gb.com.mvp.model.entity.GithubUser
-import gb.com.mvp.model.entity.GithubUserRepositories
+import gb.com.mvp.model.entity.GithubUserRepository
 import gb.com.mvp.model.repository.userRepository.IGithubUserRepositories
 import gb.com.mvp.view.adapters.userRepositories.IUserRepositoryItemView
 import gb.com.mvp.view.fragments.userRepositories.IUserRepositoriesView
@@ -24,7 +24,7 @@ class UserRepositoryListPresenter(
 
     class UserRepositoriesListPresenter: IUserRepositoryListPresenter{
 
-        val repositories = mutableListOf<GithubUserRepositories>()
+        val repositories = mutableListOf<GithubUserRepository>()
 
         override var itemClickListener: ((IUserRepositoryItemView) -> Unit)? = null
 
@@ -61,16 +61,17 @@ class UserRepositoryListPresenter(
         }
 
     private fun loadRepositories() {
-        user.repos_url?.let { url ->
-            disposable = usersRepo.getUserRepositories(url)
+        user.let { user ->
+            disposable = usersRepo.getUserRepositories(user)
                 .observeOn(uiScheduler)
                 .subscribe({
                     userRepositoryListPresenter.repositories.clear()
                     userRepositoryListPresenter.repositories.addAll(it)
                     viewState.updateList()
                     viewState.hideProgressBar()
-                           }, {
-                    Log.d(TAG, "Error in LoadRepositories function $it")}
+                }, {
+                    Log.d(TAG, "Error in LoadRepositories function $it")
+                }
                 )
         }
     }
