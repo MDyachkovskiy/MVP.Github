@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">MVP.Github</string>
+    <string name="user_login">user_login</string>
+    <string name="repo_name">repository name</string>
+    <string name="repo_id">repository id</string>
+    <string name="user_id">user id</string>
+    <string name="repository_forks">Forks count</string>
 </resources>
