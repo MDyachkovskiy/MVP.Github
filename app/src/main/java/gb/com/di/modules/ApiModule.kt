@@ -45,7 +45,7 @@ class ApiModule {
             .baseUrl(baseUrl)
             .client(client)
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(IDataSource::class.java)
     }
