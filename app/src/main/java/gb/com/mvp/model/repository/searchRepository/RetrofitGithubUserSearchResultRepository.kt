@@ -5,7 +5,7 @@ import gb.com.mvp.model.entity.searchResponse.User
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.schedulers.Schedulers
 
-class RetrofitGithubUserSearchResultRepository(
+open class RetrofitGithubUserSearchResultRepository(
     private val api: IDataSource
 ): IGithubUserSearchResult{
 

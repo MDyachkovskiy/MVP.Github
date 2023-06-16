@@ -2,10 +2,11 @@ package gb.com.mvp.view.adapters.userRepositories
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import gb.com.R
 import gb.com.databinding.ItemUserRepositoryBinding
 import gb.com.mvp.presenter.userRepositories.IUserRepositoryListPresenter
-import kotlinx.android.synthetic.main.item_user_repository.view.*
 
 class UserRepositoriesRVAdapter (
     val presenter: IUserRepositoryListPresenter
@@ -20,13 +21,15 @@ class UserRepositoriesRVAdapter (
 
             override fun setId(id: String) {
                 with (itemView){
-                    tv_id.text = id
+                    val tvId: TextView = findViewById(R.id.tvId)
+                    tvId.text = id
                 }
             }
 
             override fun setName(name: String) {
                 with (itemView){
-                    tv_name.text = name
+                    val tvName: TextView = findViewById(R.id.tvName)
+                    tvName.text = name
                 }
             }
         }
