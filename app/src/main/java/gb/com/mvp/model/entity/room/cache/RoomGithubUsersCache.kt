@@ -10,6 +10,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers
 class RoomGithubUsersCache(
     val db: Database
 ): IRoomGithubUsersCache {
+
     override fun getUsers(): Single<List<GithubUser>> {
         return Single.fromCallable {
             db.userDao.getAll().map {user ->
@@ -24,7 +25,7 @@ class RoomGithubUsersCache(
             RoomGithubUser(
             id = user.id ?: "",
             login = user.login ?: "",
-            avatarUrl = user.avatarUrl ?: "",
+            avatarUrl = user.avatar_url ?: "",
             reposUrl = user.repos_url ?:  ""
             )
         }

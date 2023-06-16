@@ -34,7 +34,7 @@ class UserRepositoriesFragment: MvpAppCompatFragment(), IUserRepositoriesView, B
 
     val presenter: UserRepositoryListPresenter by moxyPresenter {
         UserRepositoryListPresenter(user).apply {
-            App.instance.appComponent.inject(this)
+            App.instance.initRepositorySubcomponent()?.inject(this)
         }
     }
 

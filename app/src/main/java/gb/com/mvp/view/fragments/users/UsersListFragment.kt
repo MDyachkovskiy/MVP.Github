@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import gb.com.App
 import gb.com.databinding.FragmentUsersListBinding
+import gb.com.di.user.UserSubcomponent
 import gb.com.mvp.model.repository.imageLoader.GlideImageLoader
 import gb.com.mvp.presenter.users.UsersListPresenter
 import gb.com.mvp.view.adapters.users.UsersRVAdapter
@@ -20,9 +21,12 @@ class UsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonListe
 
     private var adapter: UsersRVAdapter? = null
 
+    var userSubcomponent: UserSubcomponent? = null
+
     private val presenter: UsersListPresenter by moxyPresenter {
         UsersListPresenter().apply {
-            App.instance.appComponent.inject(this)
+            userSubcomponent = App.instance.initUserSubcomponent()
+            userSubcomponent?.inject(this)
         }
     }
 
@@ -45,10 +49,9 @@ class UsersListFragment: MvpAppCompatFragment(), IUsersListView, BackButtonListe
 
     override fun init() {
         binding.rvUsers.layoutManager = LinearLayoutManager(context)
-        adapter = UsersRVAdapter(presenter.usersListPresenter,
-            GlideImageLoader().apply{
-                App.instance.appComponent.inject(this)
-            })
+        adapter = UsersRVAdapter(presenter.usersListPresenter, GlideImageLoader().apply{
+            userSubcomponent?.inject(this)
+        })
         binding.rvUsers.adapter = adapter
     }
 

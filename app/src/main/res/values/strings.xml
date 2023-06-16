@@ -5,4 +5,8 @@
     <string name="repo_id">repository id</string>
     <string name="user_id">user id</string>
     <string name="repository_forks">Forks count</string>
+    <string name="navigation_lists">Списки</string>
+    <string name="navigation_search">Поиск</string>
+    <string name="search_bar">Поиск</string>
+    <string name="no_search_result">Нет похожих результатов поиска</string>
 </resources>

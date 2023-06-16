@@ -31,6 +31,24 @@ class MainActivity : MvpAppCompatActivity(), MainView {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         App.instance.appComponent.inject(this)
+        setBottomNavigationView()
+    }
+
+    private fun setBottomNavigationView() {
+        val bottomNavigationView = binding.bottomNavigation
+        bottomNavigationView.setOnItemSelectedListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.navigation_lists -> {
+                    presenter.openListFragment()
+                    true
+                }
+                R.id.navigation_search -> {
+                    presenter.openSearchFragment()
+                    true
+                }
+                else -> false
+            }
+        }
     }
 
     override fun onResumeFragments() {

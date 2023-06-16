@@ -20,7 +20,8 @@ class RepositoryDetailsPresenter(
     }
 
     fun backPressed(): Boolean {
-        router.backTo(screens.userScreen(user))
+        router.exit()
+        //router.backTo(screens.userScreen(user))
         return true
     }
 }

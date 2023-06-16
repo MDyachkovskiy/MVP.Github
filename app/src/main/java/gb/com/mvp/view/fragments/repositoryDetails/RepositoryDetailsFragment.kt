@@ -22,7 +22,7 @@ class RepositoryDetailsFragment: MvpAppCompatFragment(), IRepositoryDetailsView,
     val presenter: RepositoryDetailsPresenter by moxyPresenter {
         val user = arguments?.getParcelable<GithubUser>(ARG_USER) as GithubUser
         RepositoryDetailsPresenter(user).apply {
-            App.instance.appComponent.inject(this)
+            App.instance.repositorySubcomponent?.inject(this)
         }
     }
 
