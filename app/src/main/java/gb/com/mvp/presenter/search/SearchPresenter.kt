@@ -1,6 +1,7 @@
 package gb.com.mvp.presenter.search
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import com.github.terrakok.cicerone.Router
 import gb.com.di.search.ISearchScopeContainer
 import gb.com.mvp.model.entity.GithubUser
@@ -31,7 +32,7 @@ class SearchPresenter: MvpPresenter<ISearchView>() {
 
     private var disposable: Disposable? = null
 
-    val searchResultListPresenter = SearchResultListPresenter()
+    var searchResultListPresenter = SearchResultListPresenter()
 
     class SearchResultListPresenter: ISearchResultListPresenter{
         val users = mutableListOf<User>()
@@ -81,16 +82,18 @@ class SearchPresenter: MvpPresenter<ISearchView>() {
         disposable = searchRepository.getSearchResults(query)
             .subscribeOn(Schedulers.io())
             .observeOn(uiScheduler)
+            .doFinally {
+                viewState.hideProgressBar()
+            }
             .subscribe(
                 {users ->
-                    viewState.hideProgressBar()
                     showResults(users)},
                 {error ->
-                    viewState.hideProgressBar()
                     viewState.showError(error.message)}
             )
     }
 
+    @VisibleForTesting
     private fun showResults(users: List<User>) {
         searchResultListPresenter.users.clear()
         searchResultListPresenter.users.addAll(users)
