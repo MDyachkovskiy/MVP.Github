@@ -6,7 +6,9 @@ The educational app project was completed as part of the course: "Android. Popul
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://i.ibb.co.com/T4bcPGR/IMG-20230922-113504.jpg" alt="project-screenshot" width="200" height="400/"> <img src="https://i.ibb.co.com/277QBkp/IMG-20230922-113540.jpg" alt="project-screenshot" width="200" height="400/"> <img src="https://i.ibb.co.com/BgFyFFf/IMG-20230922-113610.jpg" alt="project-screenshot" width="200" height="400/">
+<img src="https://gdurl.com/SNINW" alt="project-screenshot" width="200" height="400/"> 
+<img src="https://gdurl.com/p2za" alt="project-screenshot" width="200" height="400/"> 
+<img src="https://gdurl.com/l_nb" alt="project-screenshot" width="200" height="400/">
 
 <h2>💻 Built with</h2>
 
